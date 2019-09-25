@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nicolas
- * Date: 07/02/19
- * Time: 21:39
- */
 
 namespace Worldline\Sips\Paypage;
 
+use Worldline\Sips\Common\Field;
 
 class SipsMessage
 {
@@ -32,4 +27,5 @@ class SipsMessage
 
         return $array;
     }
+
 }

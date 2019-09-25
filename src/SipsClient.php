@@ -4,7 +4,9 @@ namespace Worldline\Sips;
 
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\ClientException;
 use Worldline\Sips\Common\Seal\JsonSealCalculator;
 use Worldline\Sips\Common\Seal\PostSealCalculator;
 use Worldline\Sips\Common\SipsEnvironment;
@@ -31,7 +33,6 @@ class SipsClient
      * @var int
      */
     private $keyVersion;
-
     /**
      * SipsClient constructor.
      * @param SipsEnvironment $environment
@@ -44,7 +45,6 @@ class SipsClient
         $this->setSecretKey($secretKey);
         $this->setKeyVersion($keyVersion);
     }
-
     /**
      * @return null|string
      */
@@ -52,7 +52,6 @@ class SipsClient
     {
         return $this->environment;
     }
-
     /**
      * @param SipsEnvironment $environment
      */
@@ -60,7 +59,6 @@ class SipsClient
     {
         $this->environment = $environment;
     }
-
     /**
      * @param SipsMessage $paymentRequest
      * @return InitializationResponse
@@ -70,7 +68,6 @@ class SipsClient
     {
         $paymentRequest->setMerchantId($this->getMerchantId());
         $paymentRequest->setKeyVersion($this->getKeyVersion());
-
         $sealCalculator = new JsonSealCalculator();
         $sealCalculator->calculateSeal($paymentRequest, $this->secretKey);
         $json = json_encode($paymentRequest->toArray());
@@ -80,7 +77,12 @@ class SipsClient
             "Accept" => "application/json",
         ];
         $request = new Request("POST", $paymentRequest->getServiceUrl(), $headers, $json);
-        $response = $client->send($request);
+        try {
+            $response = $client->send($request);
+        } catch (ClientException $e) {
+            //echo Psr7\str($e->getRequest()); // this may reveal sensitive info
+            echo Psr7\str($e->getResponse());
+        }
         $initialisationResponse = new InitializationResponse(json_decode($response->getBody()->getContents(), true));
         if (!is_null($initialisationResponse->getSeal())) {
             $validSeal = $sealCalculator->isCorrectSeal($initialisationResponse, $this->getSecretKey());
@@ -90,10 +92,8 @@ class SipsClient
                 throw new \Exception("Invalid seal in response. Response not trusted.");
             }
         }
-
         return $initialisationResponse;
     }
-
     /**
      * @return null|string
      */
@@ -101,7 +101,6 @@ class SipsClient
     {
         return $this->secretKey;
     }
-
     /**
      * @param string $secretKey
      */
@@ -109,7 +108,6 @@ class SipsClient
     {
         $this->secretKey = $secretKey;
     }
-
     /**
      * @return null|string
      */
@@ -117,7 +115,6 @@ class SipsClient
     {
         return $this->merchantId;
     }
-
     /**
      * @param string $merchantId
      */
@@ -125,7 +122,6 @@ class SipsClient
     {
         $this->merchantId = $merchantId;
     }
-
     /**
      * @return int|null
      */
@@ -133,7 +129,6 @@ class SipsClient
     {
         return $this->keyVersion;
     }
-
     /**
      * @param int $keyVersion
      */
@@ -141,9 +136,6 @@ class SipsClient
     {
         $this->keyVersion = $keyVersion;
     }
-
-
-
     /**
      * @return PaypageResult
      * @throws \Exception
@@ -157,7 +149,6 @@ class SipsClient
             throw new \Exception("Invalid seal in response. Response not trusted.");
         }
         $paypageResult = new PaypageResult($data);
-
         return $paypageResult;
     }
 }

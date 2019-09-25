@@ -6,6 +6,8 @@ namespace Worldline\Sips\Paypage;
 use Worldline\Sips\Common\Field\Address;
 use Worldline\Sips\Common\Field\Contact;
 use Worldline\Sips\Common\Field\PaypageData;
+use Worldline\Sips\Common\Field\CustomerData;
+use Worldline\Sips\Common\Field\PaymentMeanData;
 
 /**
  * Class PaypageRequest
@@ -133,6 +135,23 @@ class PaypageRequest extends SipsMessage
      * @var PaypageData
      */
     protected $paypageData;
+    /**
+     * @var PaymentMeanData
+     */
+    protected $paymentMeanData;
+     /**
+     * @var CustomerData
+     */
+    protected $customerData;
+    /**
+     * @var string
+     */
+    protected $paymentPattern;
+    /**
+     * @var string
+     */
+    protected $sealAlgorithm;
+
 
     /**
      * PaypageRequest constructor.
@@ -784,5 +803,78 @@ class PaypageRequest extends SipsMessage
         $this->paypageData = $paypageData;
         return $this;
     }
+
+    /**
+     * @return PaymentMeanData
+     */
+    public function getPaymentMeanData(): ?PaymentMeanData
+    {
+        return $this->paymentMeanData;
+    }
+
+    /**
+     * @param PaymentMeanData $paymentMeanData
+     * @return PaypageRequest
+     */
+    public function setPaymentMeanData(PaymentMeanData $paymentMeanData): PaypageRequest
+    {
+        $this->paymentMeanData = $paymentMeanData;
+        return $this;
+    }
+
+    /**
+     * @return CustomerData|null
+     */
+    public function getCustomerData(): ?CustomerData
+    {
+        return $this->customerData;
+    }
+
+    /**
+     * @param CustomerData $customerData
+     * @return PaypageRequest
+     */
+    public function setCustomerData(CustomerData $customerData): PaypageRequest
+    {
+        $this->customerData = $customerData;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPaymentPattern(): ?string
+    {
+        return $this->paymentPattern;
+    }
+
+    /**
+     * @param string $paymentPattern
+     * @return PaypageRequest
+     */
+    public function setPaymentPattern(string $paymentPattern): PaypageRequest
+    {
+        $this->paymentPattern = $paymentPattern;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSealAlgorithm(): ?string
+    {
+        return $this->sealAlgorithm;
+    }
+
+    /**
+     * @param string $sealAlgorithm
+     * @return PaypageRequest
+     */
+    public function setSealAlgorithm(string $sealAlgorithm): PaypageRequest
+    {
+        $this->sealAlgorithm = $sealAlgorithm;
+        return $this;
+    }
+    
 
 }

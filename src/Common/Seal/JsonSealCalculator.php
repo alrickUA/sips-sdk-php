@@ -28,7 +28,7 @@ class JsonSealCalculator
         $sealData = "";
 
         foreach ($array as $key => $value) {
-            if ($key != "keyVersion" && $key != "sealAlgorithm" && $key != "seal" && $key != "paymentMeanBrandList") {
+            if ($key != "keyVersion" && $key != "sealAlgorithm" && $key != "seal" && $key != "paymentMeanBrandList" && $key != "paymentMeanData") {
                 if (is_array($value)) {
                     foreach ($value as $item) {
                         if (is_array($item)) {
@@ -45,6 +45,12 @@ class JsonSealCalculator
             } elseif ($key == "paymentMeanBrandList") {
                 foreach ($value as $brand) {
                     $sealData .= $brand;
+                }
+            } elseif ($key == "paymentMeanData") {
+                foreach ($value as $mean) {
+                    foreach ($mean as $param) {
+                        $sealData .= $param;
+                    }
                 }
             }
         }

@@ -6,10 +6,6 @@ namespace Worldline\Sips\Paypage;
  * Class InitializationResponse
  * @package Worldline\Sips\Paypage
  */
-/**
- * Class InitializationResponse
- * @package Worldline\Sips\Paypage
- */
 class InitializationResponse
 {
     private $errorFieldName;
@@ -20,7 +16,6 @@ class InitializationResponse
     private $redirectionVersion;
     private $responseCode;
     private $seal;
-
     /**
      * InitializationResponse constructor.
      * @param array $responseArray
@@ -56,7 +51,6 @@ class InitializationResponse
             }
         }
     }
-
     /**
      * @return null|string
      */
@@ -64,7 +58,6 @@ class InitializationResponse
     {
         return $this->errorFieldName;
     }
-
     /**
      * @return null|string
      */
@@ -72,7 +65,6 @@ class InitializationResponse
     {
         return $this->redirectionData;
     }
-
     /**
      * @return null|string
      */
@@ -80,7 +72,6 @@ class InitializationResponse
     {
         return $this->redirectionStatusCode;
     }
-
     /**
      * @return null|string
      */
@@ -88,7 +79,6 @@ class InitializationResponse
     {
         return $this->redirectionStatusMessage;
     }
-
     /**
      * @return null|string
      */
@@ -96,7 +86,6 @@ class InitializationResponse
     {
         return $this->redirectionUrl;
     }
-
     /**
      * @return null|string
      */
@@ -104,7 +93,6 @@ class InitializationResponse
     {
         return $this->redirectionVersion;
     }
-
     /**
      * @return null|string
      */
@@ -112,7 +100,6 @@ class InitializationResponse
     {
         return $this->responseCode;
     }
-
     /**
      * @return null|string
      */
@@ -120,9 +107,6 @@ class InitializationResponse
     {
         return $this->seal;
     }
-
-
-
     /**
      * @return array
      */
@@ -139,7 +123,6 @@ class InitializationResponse
             }
         }
         ksort($array);
-
         return $array;
     }
 }
